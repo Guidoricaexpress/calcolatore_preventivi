@@ -1,0 +1,26 @@
+{
+  "condizioniAccessorie": [
+    { "id": "zona", "label": "Zona Disagiata", "perc": 20, "isCompound": false },
+    { "id": "ritiri", "label": "Ritiri c/vs", "perc": 15, "isCompound": true },
+    { "id": "ets", "label": "ETS", "perc": 7, "isCompound": true },
+    { "id": "adr", "label": "ADR / Merci Perf.", "perc": 13, "isCompound": true }
+  ],
+  "regoleFormato": {
+    "standard_min_dim_limit": 100,
+    "standard_max_dim_limit": 120
+  },
+  "stampa": {
+    "titolo": "Calcolatore Preventivi",
+    "prefix_tratta": "Tratta: AN -"
+  },
+  "defaultListino": "L2 ST",
+  "defaultProvincia": "MI",
+  "listiniMapping": {
+    "L1 NS": "Listino 1 - NON STOP", "L1 ST": "Listino 1 - Standard",
+    "L2 NS": "Listino 2 - NON STOP", "L2 ST": "Listino 2 - Standard",
+    "L3 NS": "Listino 3 - NON STOP", "L3 ST": "Listino 3 - Standard",
+    "L4 NS": "Listino 4 - NON STOP", "L4 ST": "Listino 4 - Standard",
+    "L5 NS": "Listino 5 - NON STOP", "L5 ST": "Listino 5 - Standard",
+    "L6 NS": "Listino 6 - NON STOP", "L6 ST": "Listino 6 - Standard"
+  }
+}

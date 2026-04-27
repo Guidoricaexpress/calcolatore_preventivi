@@ -1,0 +1,12 @@
+{
+  "table_columns": [
+    { "id": "provincia", "label": "Provincia", "type": "select", "width": "70px" },
+    { "id": "numPallet", "label": "N° Pallet", "type": "number", "width": "60px" },
+    { "id": "lunghezza", "label": "Lung. (cm)", "type": "number", "width": "80px", "placeholder": "es. 120" },
+    { "id": "larghezza", "label": "Larg. (cm)", "type": "number", "width": "80px", "placeholder": "es. 80" },
+    { "id": "altezza", "label": "Altezz. (cm)", "type": "number", "width": "80px", "placeholder": "es. 150" },
+    { "id": "peso", "label": "Peso (kg)", "type": "number", "width": "80px", "placeholder": "es. 400" },
+    { "id": "formato", "label": "Formato", "type": "readonly_tag" },
+    { "id": "tipo", "label": "Tipo", "type": "readonly_tag" }
+  ]
+}
