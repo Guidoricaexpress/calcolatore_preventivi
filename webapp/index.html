@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcolatore Preventivi Aziendale JSON</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Styles -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Stile custom interno per stampa e print-only se necessario -->
+  <style>
+    .print-only { display: none; }
+    @media print {
+      .print-only { display: block !important; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Container UI -->
+  <div id="root"></div>
+
+  <!-- Motore Applicativo (Caricato Dinamicamente) -->
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
