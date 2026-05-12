@@ -267,7 +267,7 @@ function App() {
     return `(${acc.perc}%)`;
   };
 
-  const appVersion = config && config.versione && config.versione.corrente ? config.versione.corrente : "0.1.2";
+  const appVersion = config && config.versione && config.versione.corrente ? config.versione.corrente : "0.1.3";
 
   if (loading) return <div style={{padding: '2rem'}}>Caricamento Motore Applicativo in corso... L'app necessita dell'avvio tramite server locale (.bat).</div>;
 
@@ -342,7 +342,7 @@ function App() {
             <span className="version-badge">Vers. {appVersion}</span>
           </div>
         </div>
-        <div style={{display: 'flex', gap: '1rem'}}>
+        <div className="header-actions">
           <button className="btn btn-primary" onClick={handleSaveText} title="Scarica un file di testo riassuntivo">
              💾 Salva Preventivo
           </button>
@@ -405,9 +405,9 @@ function App() {
                 {processedRows.map((row, index) => (
                   <tr key={row.id} style={row.error ? {backgroundColor: '#FEF2F2'} : {}}>
                     {fields.table_columns.map(col => (
-                       <td key={col.id}>{renderCell(row, index, col)}</td>
+                       <td key={col.id} data-label={col.label}>{renderCell(row, index, col)}</td>
                     ))}
-                    <td className="no-print">
+                    <td className="no-print" data-label="Azione">
                       <button className="btn btn-danger" style={{padding: '0.4rem', minWidth: '40px'}} title="Elimina riga" onClick={() => removeRow(index)}>🗑️</button>
                     </td>
                   </tr>
