@@ -267,7 +267,7 @@ function App() {
     return `(${acc.perc}%)`;
   };
 
-  const appVersion = config.versione && config.versione.corrente ? config.versione.corrente : "0.1.1";
+  const appVersion = config && config.versione && config.versione.corrente ? config.versione.corrente : "0.1.2";
 
   if (loading) return <div style={{padding: '2rem'}}>Caricamento Motore Applicativo in corso... L'app necessita dell'avvio tramite server locale (.bat).</div>;
 

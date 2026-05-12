@@ -1,6 +1,6 @@
 {
   "versione": {
-    "corrente": "0.1.1",
+    "corrente": "0.1.2",
     "schema": "major.minor.patch",
     "note": "Incrementare patch per correzioni, minor per nuove funzioni, major per cambi strutturali."
   },
