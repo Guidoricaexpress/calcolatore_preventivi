@@ -628,6 +628,17 @@
         "Big": 108.0,
         "Mega": 110.0
       },
+      "NA": {
+        "Mini": 40.0,
+        "Quarter": 44.0,
+        "Half": 58.0,
+        "Medium": 62.0,
+        "Light": 65.0,
+        "Large": 72.0,
+        "Full": 75.0,
+        "Big": 81.0,
+        "Mega": 84.0
+      },
       "NO": {
         "Mini": 40.0,
         "Quarter": 45.0,
@@ -1795,6 +1806,17 @@
         "Full": 110.0,
         "Big": 122.0,
         "Mega": 123.0
+      },
+      "NA": {
+        "Mini": 45.0,
+        "Quarter": 50.0,
+        "Half": 66.0,
+        "Medium": 69.0,
+        "Light": 74.0,
+        "Large": 83.0,
+        "Full": 86.0,
+        "Big": 94.0,
+        "Mega": 97.0
       },
       "NO": {
         "Mini": 46.0,
@@ -2964,6 +2986,17 @@
         "Big": 112.0,
         "Mega": 113.0
       },
+      "NA": {
+        "Mini": 41.0,
+        "Quarter": 45.0,
+        "Half": 60.0,
+        "Medium": 63.0,
+        "Light": 67.0,
+        "Large": 74.0,
+        "Full": 77.0,
+        "Big": 83.0,
+        "Mega": 86.0
+      },
       "NO": {
         "Mini": 41.0,
         "Quarter": 46.0,
@@ -4131,6 +4164,17 @@
         "Full": 113.0,
         "Big": 126.0,
         "Mega": 127.0
+      },
+      "NA": {
+        "Mini": 47.0,
+        "Quarter": 51.0,
+        "Half": 68.0,
+        "Medium": 71.0,
+        "Light": 77.0,
+        "Large": 86.0,
+        "Full": 89.0,
+        "Big": 97.0,
+        "Mega": 100.0
       },
       "NO": {
         "Mini": 47.0,
@@ -5300,6 +5344,17 @@
         "Big": 115.0,
         "Mega": 117.0
       },
+      "NA": {
+        "Mini": 42.0,
+        "Quarter": 47.0,
+        "Half": 62.0,
+        "Medium": 65.0,
+        "Light": 69.0,
+        "Large": 76.0,
+        "Full": 80.0,
+        "Big": 86.0,
+        "Mega": 89.0
+      },
       "NO": {
         "Mini": 43.0,
         "Quarter": 47.0,
@@ -6467,6 +6522,17 @@
         "Full": 117.0,
         "Big": 130.0,
         "Mega": 132.0
+      },
+      "NA": {
+        "Mini": 48.0,
+        "Quarter": 53.0,
+        "Half": 70.0,
+        "Medium": 74.0,
+        "Light": 79.0,
+        "Large": 88.0,
+        "Full": 91.0,
+        "Big": 100.0,
+        "Mega": 103.0
       },
       "NO": {
         "Mini": 49.0,
@@ -7636,6 +7702,17 @@
         "Big": 119.0,
         "Mega": 120.0
       },
+      "NA": {
+        "Mini": 43.0,
+        "Quarter": 48.0,
+        "Half": 63.0,
+        "Medium": 67.0,
+        "Light": 71.0,
+        "Large": 79.0,
+        "Full": 82.0,
+        "Big": 88.0,
+        "Mega": 92.0
+      },
       "NO": {
         "Mini": 44.0,
         "Quarter": 49.0,
@@ -8803,6 +8880,17 @@
         "Full": 120.0,
         "Big": 134.0,
         "Mega": 136.0
+      },
+      "NA": {
+        "Mini": 49.0,
+        "Quarter": 54.0,
+        "Half": 72.0,
+        "Medium": 76.0,
+        "Light": 81.0,
+        "Large": 91.0,
+        "Full": 94.0,
+        "Big": 103.0,
+        "Mega": 106.0
       },
       "NO": {
         "Mini": 50.0,
@@ -9972,6 +10060,17 @@
         "Big": 122.0,
         "Mega": 124.0
       },
+      "NA": {
+        "Mini": 46.0,
+        "Quarter": 51.0,
+        "Half": 65.0,
+        "Medium": 69.0,
+        "Light": 73.0,
+        "Large": 81.0,
+        "Full": 84.0,
+        "Big": 91.0,
+        "Mega": 94.0
+      },
       "NO": {
         "Mini": 47.0,
         "Quarter": 52.0,
@@ -11139,6 +11238,17 @@
         "Full": 124.0,
         "Big": 138.0,
         "Mega": 140.0
+      },
+      "NA": {
+        "Mini": 52.0,
+        "Quarter": 57.0,
+        "Half": 74.0,
+        "Medium": 78.0,
+        "Light": 84.0,
+        "Large": 94.0,
+        "Full": 97.0,
+        "Big": 106.0,
+        "Mega": 109.0
       },
       "NO": {
         "Mini": 53.0,
@@ -12308,6 +12418,17 @@
         "Big": 147.0,
         "Mega": 149.0
       },
+      "NA": {
+        "Mini": 55.0,
+        "Quarter": 61.0,
+        "Half": 78.0,
+        "Medium": 82.0,
+        "Light": 87.0,
+        "Large": 97.0,
+        "Full": 101.0,
+        "Big": 109.0,
+        "Mega": 113.0
+      },
       "NO": {
         "Mini": 56.0,
         "Quarter": 62.0,
@@ -13476,6 +13597,17 @@
         "Big": 166.0,
         "Mega": 168.0
       },
+      "NA": {
+        "Mini": 63.0,
+        "Quarter": 70.0,
+        "Half": 88.0,
+        "Medium": 93.0,
+        "Light": 100.0,
+        "Large": 112.0,
+        "Full": 116.0,
+        "Big": 127.0,
+        "Mega": 131.0
+      },
       "NO": {
         "Mini": 65.0,
         "Quarter": 71.0,
@@ -14208,7 +14340,7 @@
     "ELETTROMECCANICA DORICA SRL": "L4 ST",
     "ELI SRL (LORETO)": "L2 ST",
     "ELI SRL (TREVI)": "L4 ST",
-    "EMA QUADRI ELETTRICI SRL": "L6 ST",
+    "EMA QUADRI ELETTRICI SRL": "6\\ SPOT",
     "EMPORIO DELLA NATURA di CAMPOMAGGI L.": "L3 ST",
     "ENG SERVICE DI D. CIAMPICHETTI & C. SAS": "L4 ST",
     "ESISTYLE SRL": "L4 ST",
@@ -14235,7 +14367,7 @@
     "GAROFOLI SPA": "L6 ST",
     "GASTREGHINI S.R.L.": "L3 ST",
     "GE CARTOTECNICA": "L3 ST",
-    "GETROPLAST SRL": "L5 ST",
+    "GETROPLAST SRL": "5\\SPOT",
     "GFA SYSTEM SRL": "L3 ST",
     "GIDEA SRL": "L6 ST",
     "GIOLLI  SRL": "SUO",
@@ -14379,7 +14511,7 @@
     "1.02": 0.0,
     "1.08": 0.0,
     "1.14": 10.0,
-    "1.2": 0.0,
+    "1.2": 20.0,
     "1.44": 30.0,
     "0.8": 0.0,
     "0.88": 0.0,
@@ -14399,7 +14531,7 @@
     "1.8": 50.0,
     "1.9": 80.0,
     "2.0": 80.0,
-    "2.4": 150.0,
+    "2.4": 100.0,
     "1.21": 0.0,
     "1.32": 10.0,
     "1.43": 30.0,

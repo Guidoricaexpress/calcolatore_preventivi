@@ -58,6 +58,25 @@ body {
   border-radius: 2px;
 }
 
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 /* Layout griglia */
 .app-layout {
   display: grid;
@@ -102,6 +121,22 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+}
+
+.notice-inline {
+  grid-column: 1 / -1;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.875rem;
+}
+
+.accessory-rule {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 label {
@@ -229,6 +264,12 @@ input[type="number"] {
   font-size: 1.5rem;
   font-weight: 700;
   opacity: 1;
+}
+
+.version-note {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 0.65rem;
 }
 
 .tag {

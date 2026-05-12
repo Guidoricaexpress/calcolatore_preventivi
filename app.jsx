@@ -10,6 +10,7 @@ function App() {
   const [listino, setListino] = useState(""); 
   const [rows, setRows] = useState([]);
   const [accessories, setAccessories] = useState({});
+  const [clientNotice, setClientNotice] = useState("");
 
   useEffect(() => {
     Promise.all([
@@ -24,11 +25,11 @@ function App() {
        
        let initialAccessories = {};
        conf.condizioniAccessorie.forEach(acc => {
-          initialAccessories[acc.id] = { active: false, perc: acc.perc, isCompound: acc.isCompound, label: acc.label };
+          initialAccessories[acc.id] = { active: false, perc: acc.perc, percStandard: acc.percStandard, isCompound: acc.isCompound, label: acc.label };
        });
        setAccessories(initialAccessories);
        
-       setRows([{ id: Date.now(), provincia: conf.defaultProvincia, numPallet: 1, lunghezza: 0, larghezza: 0, altezza: 0, peso: 0, formato: "", tipo: "Non trovato", error: false }]);
+       setRows([createEmptyRow(conf)]);
        setLoading(false);
     }).catch(err => {
        console.error("Errore AJAX:", err);
@@ -50,6 +51,53 @@ function App() {
     return config.listiniMapping[code] || code;
   };
 
+  const createEmptyRow = (conf = config) => ({
+    id: (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
+    provincia: conf.defaultProvincia,
+    numPallet: 1,
+    lunghezza: "",
+    larghezza: "",
+    altezza: "",
+    peso: "",
+    formato: "Inserire Misure",
+    tipo: "",
+    error: false
+  });
+
+  const hasPositiveNumber = (value) => value !== "" && value !== null && value !== undefined && Number(value) > 0;
+
+  const hasShipmentData = (row) => (
+    hasPositiveNumber(row.lunghezza) ||
+    hasPositiveNumber(row.larghezza) ||
+    hasPositiveNumber(row.altezza) ||
+    hasPositiveNumber(row.peso)
+  );
+
+  const hasCompleteMeasures = (row) => (
+    hasPositiveNumber(row.lunghezza) &&
+    hasPositiveNumber(row.larghezza) &&
+    hasPositiveNumber(row.altezza) &&
+    hasPositiveNumber(row.peso)
+  );
+
+  const resolveClienteListino = (rawCode) => {
+    const raw = String(rawCode || "").trim();
+    if (!raw) return { code: "", note: "" };
+    if (listini && listini.rates[raw]) return { code: raw, note: "" };
+
+    const numericMatch = raw.match(/^L?\s*([1-6])(?:\s*ST)?(?:\s*\\\s*SPOT)?$/i);
+    if (numericMatch) {
+      const code = `L${numericMatch[1]} ST`;
+      const isSpot = /SPOT/i.test(raw);
+      return {
+        code,
+        note: isSpot ? `Cliente marcato "${raw}" in Excel: caricato ${formatListinoName(code)}, verificare eventuale quota SPOT.` : ""
+      };
+    }
+
+    return { code: "", note: `Cliente con listino "${raw}" non presente nei tariffari: seleziona il listino manualmente o gestiscilo come SPOT.` };
+  };
+
   const getFormato = (lun, lar) => {
     if (!lun || !lar) return "Inserire Misure";
     const minD = Math.min(lun, lar);
@@ -58,12 +106,26 @@ function App() {
     return "Fuori formato";
   };
 
-  const getTipo = (Alt, Pso) => {
-    if (!Alt || !Pso) return "Non trovato";
-    const h = parseFloat(Alt);
-    const p = parseFloat(Pso);
+  const getTipo = (row) => {
+    if (!hasCompleteMeasures(row)) return "";
+    const h = parseFloat(row.altezza);
+    const p = parseFloat(row.peso);
     const found = listini.formato.find(f => p >= f.peso_da && p <= f.peso_a && h >= f.alt_da && h <= f.alt_a);
-    return found ? found.categoria : "Non trovato";
+    if (found) return found.categoria;
+
+    const foundByWeight = listini.formato.find(f => p >= f.peso_da && p <= f.peso_a);
+    return foundByWeight ? foundByWeight.categoria : "Non trovato";
+  };
+
+  const getRiprezzamentoPerc = (areaRounded) => {
+    const candidates = [
+      areaRounded.toString(),
+      areaRounded.toFixed(1),
+      areaRounded.toFixed(2),
+      areaRounded.toFixed(3)
+    ];
+    const key = candidates.find(k => listini.riprezzamenti && listini.riprezzamenti[k] !== undefined);
+    return key ? listini.riprezzamenti[key] / 100 : null;
   };
 
   const handleRowChange = (index, field, value) => {
@@ -79,7 +141,7 @@ function App() {
 
     const r = newRows[index];
     r.formato = getFormato(r.lunghezza, r.larghezza);
-    r.tipo = getTipo(r.altezza, r.peso);
+    r.tipo = getTipo(r);
     
     setRows(newRows);
   };
@@ -92,7 +154,7 @@ function App() {
   };
 
   const addRow = () => {
-    setRows([...rows, { id: Date.now(), provincia: config.defaultProvincia, numPallet: 1, lunghezza: 0, larghezza: 0, altezza: 0, peso: 0, formato: "", tipo: "Non trovato", error: false }]);
+    setRows([...rows, createEmptyRow()]);
   };
 
   const removeRow = (index) => {
@@ -115,27 +177,33 @@ function App() {
       const proc = { ...r, errorText: "" };
       let noloSingolo = 0;
 
-      if (proc.tipo !== "Non trovato") {
+      if (!hasShipmentData(proc)) {
+        return proc;
+      }
+
+      if (!hasPositiveNumber(proc.numPallet) || !hasCompleteMeasures(proc)) {
+        proc.errorText = "Completare pallet, misure e peso";
+      } else if (proc.tipo !== "Non trovato") {
         const rateTable = listini.rates[listino];
         if (rateTable && rateTable[proc.provincia]) {
             let p = rateTable[proc.provincia][proc.tipo];
-            if (p) {
+            if (p !== undefined && p !== null) {
                noloSingolo = p;
             } else { proc.errorText = "Tariffa non trovata"; }
         } else { proc.errorText = "Provincia o Listino errato"; } 
       } else {
-         if(proc.peso > 0) proc.errorText = "Nessun Tipo compatibile"; 
+         proc.errorText = "Nessun Tipo compatibile"; 
       }
       
-      const noloXBancali = noloSingolo * (proc.numPallet || 1);
+      const noloXBancali = noloSingolo * (hasPositiveNumber(proc.numPallet) ? proc.numPallet : 0);
       
       // Riprezzamento Excel: =CERCA.X(ARROTONDA((L*W)/10000;3)...)
       let riprezzamento_perc = 0;
       if (proc.formato === "Fuori formato") {
          const areaRounded = Math.round(((proc.lunghezza * proc.larghezza) / 10000) * 1000) / 1000;
-         const areaStr = areaRounded.toString();
-         if (listini.riprezzamenti && listini.riprezzamenti[areaStr] !== undefined) {
-             riprezzamento_perc = listini.riprezzamenti[areaStr] / 100;
+         const riprezzamento = getRiprezzamentoPerc(areaRounded);
+         if (riprezzamento !== null) {
+             riprezzamento_perc = riprezzamento;
          } else {
              proc.errorText = "Da valutare (Area non in tabella)";
          }
@@ -162,10 +230,10 @@ function App() {
       if (accRitiri && accRitiri.active) {
          if (isNoStop) {
             if (proc.numPallet > 6) { proc.errorText = "Cambiare servizio in Standard"; errGlobal = true; proc.error = true; }
-            else { calcMList['ritiri'] += o3_totale_riga * 0.15; } 
+            else { calcMList['ritiri'] += o3_totale_riga * (accRitiri.perc / 100); } 
          } else {
             if (proc.numPallet > 10) { proc.errorText = "Errore: Bancali > 10"; errGlobal = true; proc.error = true; }
-            else { calcMList['ritiri'] += o3_totale_riga * 0.10; } 
+            else { calcMList['ritiri'] += o3_totale_riga * ((accRitiri.percStandard || 10) / 100); } 
          }
       }
 
@@ -193,6 +261,13 @@ function App() {
        processedRows: pRows 
     };
   }, [rows, listino, accessories, listini, config]);
+
+  const formatAccessoryRule = (key, acc) => {
+    if (key === 'ritiri') return `(${acc.percStandard || 10}% Standard / ${acc.perc}% Non Stop)`;
+    return `(${acc.perc}%)`;
+  };
+
+  const appVersion = config.versione && config.versione.corrente ? config.versione.corrente : "0.1.1";
 
   if (loading) return <div style={{padding: '2rem'}}>Caricamento Motore Applicativo in corso... L'app necessita dell'avvio tramite server locale (.bat).</div>;
 
@@ -240,7 +315,7 @@ function App() {
     Object.keys(accessories).forEach(key => {
        if (accessories[key].active) {
           const acc = accessories[key];
-          txt += `${acc.label} ${key === 'ritiri' ? '(Dinamica)' : '(' + acc.perc + '%)'}: + € ${mList[key].toFixed(2)}\n`;
+          txt += `${acc.label} ${formatAccessoryRule(key, acc)}: + € ${mList[key].toFixed(2)}\n`;
        }
     });
 
@@ -262,7 +337,10 @@ function App() {
       <div className="header no-print">
         <div>
           <h1>{config.stampa.titolo}</h1>
-          <div className="header-accent"></div>
+          <div className="header-meta">
+            <div className="header-accent"></div>
+            <span className="version-badge">Vers. {appVersion}</span>
+          </div>
         </div>
         <div style={{display: 'flex', gap: '1rem'}}>
           <button className="btn btn-primary" onClick={handleSaveText} title="Scarica un file di testo riassuntivo">
@@ -291,9 +369,11 @@ function App() {
                 <select value={cliente} onChange={e => {
                    const val = e.target.value;
                    setCliente(val);
+                   setClientNotice("");
                    if (val && listini && listini.clienti && listini.clienti[val]) {
-                      const code = listini.clienti[val];
-                      if (listini.rates[code]) setListino(code);
+                      const resolved = resolveClienteListino(listini.clienti[val]);
+                      if (resolved.code && listini.rates[resolved.code]) setListino(resolved.code);
+                      setClientNotice(resolved.note);
                    }
                 }} style={{maxWidth: '300px'}}>
                   <option value="">-- Manuale (o Nessuno) --</option>
@@ -305,10 +385,12 @@ function App() {
                 <select value={listino} onChange={e => {
                    setListino(e.target.value);
                    setCliente(""); // Resetta il cliente per mostrare la selezione manuale
+                   setClientNotice("");
                 }} style={{maxWidth: '300px'}}>
                   {listiniDisponibili.map(l => <option key={l} value={l}>{formatListinoName(l)}</option>)}
                 </select>
               </div>
+              {clientNotice && <div className="form-group no-print notice-inline">{clientNotice}</div>}
             </div>
 
             <div style={{overflowX: 'auto'}}>
@@ -349,7 +431,13 @@ function App() {
                        <div key={key} className="form-group" style={{flexDirection: 'row', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap'}}>
                           <input type="checkbox" id={key} checked={acc.active} onChange={e => handleAccessoryChange(key, 'active', e.target.checked)} />
                           <label htmlFor={key} style={{minWidth: '130px'}}>{acc.label}</label>
-                          <input type="number" style={{width: '60px', padding: '0.2rem'}} value={acc.perc} onChange={e => handleAccessoryChange(key, 'perc', parseFloat(e.target.value)||0)} /> <label>%</label>
+                          {key === 'ritiri' ? (
+                            <span className="accessory-rule">{formatAccessoryRule(key, acc)}</span>
+                          ) : (
+                            <>
+                              <input type="number" style={{width: '60px', padding: '0.2rem'}} value={acc.perc} onChange={e => handleAccessoryChange(key, 'perc', parseFloat(e.target.value)||0)} /> <label>%</label>
+                            </>
+                          )}
                        </div>
                     );
                  })}
@@ -372,7 +460,7 @@ function App() {
                  if (acc.active) {
                     return (
                        <div key={key} className="totals-row">
-                          <span>{acc.label} {(key === 'ritiri' ? '(Dinamica)' : '(' + acc.perc + '%)')}:</span>
+                          <span>{acc.label} {formatAccessoryRule(key, acc)}:</span>
                           <span>+ € {mList[key].toFixed(2)}</span>
                        </div>
                     );
@@ -390,6 +478,7 @@ function App() {
                * I prezzi sono indicativi. Riferimento Listino selezionato: <b>{formatListinoName(listino)}</b>.
                Assicurati che tutti i bancali risultino censiti (la voce "Tipo" non deve essere in errore rosso).
             </p>
+            <p className="version-note">Versione calcolatore: {appVersion}</p>
           </div>
         </div>
       </div>

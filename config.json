@@ -1,7 +1,12 @@
 {
+  "versione": {
+    "corrente": "0.1.1",
+    "schema": "major.minor.patch",
+    "note": "Incrementare patch per correzioni, minor per nuove funzioni, major per cambi strutturali."
+  },
   "condizioniAccessorie": [
     { "id": "zona", "label": "Zona Disagiata", "perc": 20, "isCompound": false },
-    { "id": "ritiri", "label": "Ritiri c/vs", "perc": 15, "isCompound": true },
+    { "id": "ritiri", "label": "Ritiri c/vs", "perc": 15, "percStandard": 10, "isCompound": true },
     { "id": "ets", "label": "ETS", "perc": 7, "isCompound": true },
     { "id": "adr", "label": "ADR / Merci Perf.", "perc": 13, "isCompound": true }
   ],
